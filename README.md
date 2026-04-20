@@ -1,44 +1,44 @@
 # Estructura del Proyecto - Jardines del Renacer
 
-## 📁 Directorios
+## Directorios
 
 ```
 C_menbresia2026/
 │
-├── 📄 package.json                 # Dependencias del proyecto
-├── 📄 tsconfig.json                # Configuración de TypeScript
-├── 📄 vercel.json                  # Configuración de Vercel
-├── 📄 .env.local.example           # Variables de entorno (ejemplo)
+├── package.json                 # Dependencias del proyecto
+├── tsconfig.json                # Configuración de TypeScript
+├── vercel.json                  # Configuración de Vercel
+├── .env.local.example           # Variables de entorno (ejemplo)
 │
-├── 📁 api/                         # Funciones Serverless (Vercel)
-│   ├── auth.ts                     # Login, registro, 2FA
-│   ├── contratantes.ts             # Búsqueda por cédula
-│   └── upload.ts                   # Cargar Excel
+├── api/                         # Funciones Serverless (Vercel)
+│   ├── auth.ts                   # Login, registro, 2FA
+│   ├── contratantes.ts           # Búsqueda por cédula
+│   └── upload.ts                 # Cargar Excel
 │
-├── 📁 src/                         # Código compartido
+├── src/                         # Código compartido
 │   ├── lib/
-│   │   └── supabaseClient.ts       # Cliente de Supabase
+│   │   └── supabaseClient.ts     # Cliente de Supabase
 │   └── utils/
-│       ├── emailService.ts         # Envío de emails y 2FA
-│       ├── auth.ts                 # JWT y bcrypt
-│       └── excelParser.ts          # Procesamiento de Excel
+│       ├── emailService.ts       # Envío de emails y 2FA
+│       ├── auth.ts               # JWT y bcrypt
+│       └── excelParser.ts        # Procesamiento de Excel
 │
-├── 📁 database/
-│   └── migrations.sql              # Esquema SQL de Supabase
+├── database/
+│   └── migrations.sql            # Esquema SQL de Supabase
 │
-├── 📁 admin/                       # Panel de administración
-│   ├── login.html                  # Login con 2FA
-│   └── index.html                  # Dashboard admin
+├── admin/                       # Panel de administración
+│   ├── login.html                # Login con 2FA
+│   └── index.html                # Dashboard admin
 │
-├── 📁 public/                      # Frontend de búsqueda pública
-│   └── index.html                  # Búsqueda por cédula
+├── public/                      # Frontend de búsqueda pública
+│   └── index.html                # Búsqueda por cédula
 │
-└── 📄 DEPLOYMENT_GUIDE.md          # Guía de despliegue
+└── DEPLOYMENT_GUIDE.md          # Guía de despliegue
 ```
 
 ---
 
-## 🔄 Flujo de Datos
+## Flujo de Datos
 
 ### Para Admins (Panel Administrativo)
 
@@ -75,7 +75,7 @@ C_menbresia2026/
 
 ---
 
-## 🔐 Autenticación
+## Autenticación
 
 **Login de Admin (Paso 1 - Credenciales)**
 ```
@@ -115,7 +115,7 @@ Respuesta:
 
 ---
 
-## 📤 Cargar Contratantes
+## Cargar Contratantes
 
 **Archivo Excel Esperado**
 
@@ -146,7 +146,7 @@ Respuesta:
 
 ---
 
-## 🔍 Búsqueda de Contratantes
+## Búsqueda de Contratantes
 
 **Búsqueda Pública (Sin Autenticación)**
 ```
@@ -171,7 +171,7 @@ Respuesta:
 
 ---
 
-## 📧 Variables de Entorno Requeridas
+## Variables de Entorno Requeridas
 
 ```bash
 # Supabase
@@ -192,7 +192,7 @@ NODE_ENV=production
 
 ---
 
-## 🧪 Testing Local
+## Testing Local
 
 ```bash
 # Instalar dependencias
@@ -213,7 +213,7 @@ npm run dev
 
 ---
 
-## 📊 Tablas de Base de Datos
+## Tablas de Base de Datos
 
 ### Tabla: `admins`
 ```sql
@@ -258,7 +258,7 @@ npm run dev
 
 ---
 
-## 🎯 URLs del Proyecto
+## URLs del Proyecto
 
 Una vez desplegado en Vercel:
 
@@ -278,7 +278,7 @@ https://tu-proyecto.vercel.app/api/health
 
 ---
 
-**Proyecto: Validación de Credenciales - Jardines del Renacer 🌺**
+**Proyecto: Validación de Credenciales - Jardines del Renacer**
 **Versión: 1.0.0**
 **Última actualización: Abril 2026**
 # jardines-memberships_2026

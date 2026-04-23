@@ -116,13 +116,13 @@
         <form id="loginForm1" class="space-y-5 relative z-10">
             <div>
                 <label for="email" class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Correo Electrónico</label>
-                <input type="email" id="email" name="email" required
+                <input type="email" id="email" name="email" required autocomplete="email"
                     class="glass-input block w-full px-5 py-3.5 rounded-xl text-base font-semibold text-gray-800"
                     placeholder="admin@jardinesdelrenacer.co">
             </div>
             <div>
                 <label for="password" class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Contraseña</label>
-                <input type="password" id="password" name="password" required
+                <input type="password" id="password" name="password" required autocomplete="current-password"
                     class="glass-input block w-full px-5 py-3.5 rounded-xl text-base font-semibold text-gray-800">
             </div>
             <button type="submit" id="btnPaso1"
@@ -141,7 +141,7 @@
             </div>
             <div>
                 <label for="codigo" class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1 text-center">Código de Verificación</label>
-                <input type="text" id="codigo" name="codigo" required maxlength="6" pattern="\d{6}"
+                <input type="text" id="codigo" name="codigo" required maxlength="6" pattern="\d{6}" autocomplete="one-time-code"
                     class="glass-input block w-full px-5 py-4 rounded-xl text-center text-3xl font-bold tracking-[0.5em] text-gray-800"
                     placeholder="000000">
             </div>
@@ -200,7 +200,13 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password, accion: 'login_paso1' })
                 });
-                const data = await response.json();
+                
+                let data;
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    throw new Error('Vercel devolvió un error interno grave. Ve a la pestaña "Logs" en Vercel para ver qué se rompió.');
+                }
 
                 if (response.ok && data.success) {
                     currentAdminId = data.adminId;
@@ -211,7 +217,7 @@
                     showError(data.error || data.message || 'Error en las credenciales.');
                 }
             } catch (err) {
-                showError('Error de conexión con el servidor.');
+                showError(err.message || 'Error de conexión con el servidor.');
             } finally {
                 btn.disabled = false;
                 text.textContent = 'Continuar';

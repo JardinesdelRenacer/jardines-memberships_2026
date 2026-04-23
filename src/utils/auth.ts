@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'tu_secreto_super_seguro';
 const JWT_EXPIRE = '24h';
@@ -16,12 +17,10 @@ export const verificarToken = (token: string): { id: string } | null => {
 };
 
 export const hashPassword = async (password: string): Promise<string> => {
-    const bcrypt = require('bcryptjs');
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
 };
 
 export const compararPassword = async (password: string, hash: string): Promise<boolean> => {
-    const bcrypt = require('bcryptjs');
     return bcrypt.compare(password, hash);
 };

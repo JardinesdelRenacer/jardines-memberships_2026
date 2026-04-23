@@ -20,9 +20,11 @@ import { generarToken, hashPassword, compararPassword } from '../src/utils/auth'
 
 // Función principal que maneja todas las peticiones POST a /api/auth
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-    // Solo aceptamos método POST
-    if (req.method === 'POST') {
-        const { email, password, nombre, accion, codigo2FA, rol } = req.body;
+    try {
+        // Solo aceptamos método POST
+        if (req.method === 'POST') {
+            const body = req.body || {};
+            const { email, password, nombre, accion, codigo2FA, rol } = typeof body === 'string' ? JSON.parse(body) : body;
 
         // ACCIÓN: REGISTRO DE NUEVO ADMINISTRADOR
         if (accion === 'registro') {
@@ -96,11 +98,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Login Paso 1
         if (accion === 'login_paso1') {
             try {
-                const { data: admin } = await supabase
+                const { data: admin, error } = await supabase
                     .from('admins')
                     .select('*')
                     .eq('email', email)
                     .single();
+
+                if (error && error.code !== 'PGRST116') {
+                    throw error;
+                }
 
                 if (!admin) {
                     return res.status(401).json({
@@ -219,7 +225,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 });
             }
         }
+        }
+        return res.status(405).json({ message: 'Method not allowed' });
+    } catch (globalError: any) {
+        return res.status(500).json({
+            success: false,
+            message: 'Error crítico en el servidor',
+            error: globalError.message
+        });
     }
-
-    return res.status(405).json({ message: 'Method not allowed' });
 }

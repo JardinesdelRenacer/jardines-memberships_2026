@@ -4,10 +4,10 @@
   "description": "Sistema de validación de membresía - Jardines del Renacer",
   "private": true,
   "scripts": {
-    "dev": "vercel dev",
-    "build": "tsc && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "deploy": "vercel --prod",
-    "preview": "vercel"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.0",

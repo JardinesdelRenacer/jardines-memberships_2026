@@ -19,7 +19,7 @@ export const generarCodigo2FA = (): string => {
 // Enviar código 2FA
 export const enviarCodigo2FA = async (email: string, codigo: string): Promise<boolean> => {
     try {
-        await transporter.sendMail({
+        const mailPromise = transporter.sendMail({
             from: process.env.EMAIL_USER || 'sistema@jardinesdelrenacer.co',
             to: email,
             subject: '🔐 Código de Verificación - Jardines del Renacer',
@@ -41,6 +41,10 @@ export const enviarCodigo2FA = async (email: string, codigo: string): Promise<bo
                 </div>
             `
         });
+        
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Gmail SMTP Timeout')), 4000));
+        await Promise.race([mailPromise, timeoutPromise]);
+        
         return true;
     } catch (error) {
         console.error('Error enviando email:', error);
@@ -51,7 +55,7 @@ export const enviarCodigo2FA = async (email: string, codigo: string): Promise<bo
 // Enviar confirmación de login
 export const enviarConfirmacionLogin = async (email: string): Promise<boolean> => {
     try {
-        await transporter.sendMail({
+        const mailPromise = transporter.sendMail({
             from: process.env.EMAIL_USER || 'sistema@jardinesdelrenacer.co',
             to: email,
             subject: '✅ Acceso autorizado - Jardines del Renacer',
@@ -65,6 +69,10 @@ export const enviarConfirmacionLogin = async (email: string): Promise<boolean> =
                 </div>
             `
         });
+        
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Gmail SMTP Timeout')), 4000));
+        await Promise.race([mailPromise, timeoutPromise]);
+        
         return true;
     } catch (error) {
         console.error('Error enviando email:', error);

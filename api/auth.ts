@@ -97,6 +97,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         // Login Paso 1
         if (accion === 'login_paso1') {
+            // Prevenir crash verificando variables de entorno
+            if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Falta configurar credenciales de Supabase en Vercel'
+                });
+            }
+            if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Falta configurar EMAIL_USER y EMAIL_PASS en Vercel'
+                });
+            }
+
             try {
                 const { data: admin, error } = await supabase
                     .from('admins')
@@ -127,7 +141,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 const codigo = generarCodigo2FA();
                 const expiry = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-                await supabase
+                const { error: updateError } = await supabase
                     .from('admins')
                     .update({
                         codigo_2fa: codigo,
@@ -135,13 +149,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                         codigo_2fa_verificado: false
                     })
                     .eq('id', admin.id);
+                    
+                if (updateError) {
+                    throw new Error(`Error en Base de Datos: ${updateError.message}`);
+                }
 
                 const emailEnviado = await enviarCodigo2FA(email, codigo);
 
                 if (!emailEnviado) {
                     return res.status(500).json({
                         success: false,
-                        message: 'Error enviando código'
+                        message: 'Error de Gmail: Revisa el App Password en Vercel'
                     });
                 }
 
@@ -164,7 +182,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Login Paso 2
         if (accion === 'login_paso2') {
             try {
-                const { adminId, codigo } = req.body;
+                const bodyPaso2 = req.body || {};
+                const { adminId, codigo } = typeof bodyPaso2 === 'string' ? JSON.parse(bodyPaso2) : bodyPaso2;
 
                 const { data: admin } = await supabase
                     .from('admins')

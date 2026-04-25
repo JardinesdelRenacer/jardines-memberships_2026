@@ -247,6 +247,18 @@
 
     </main>
 
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center relative z-10">
+        <div class="border-t border-gray-200/60 pt-6">
+            <p class="text-xs text-gray-500 font-medium">
+                &copy; 2026 Jardines del Renacer. Todos los derechos reservados.
+            </p>
+            <p class="text-xs text-gray-400 mt-1">
+                Versión 3.01.1 | Creado y diseñado por <a href="https://github.com/JuanMonza" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-bold transition-colors">Juan Monza</a>
+            </p>
+        </div>
+    </footer>
+
     <script>
         lucide.createIcons();
 
@@ -284,7 +296,14 @@
                 
                 if(result.success && result.data.length > 0) {
                     tbody.innerHTML = result.data.map(log => {
-                        const dateObj = new Date(log.created_at);
+                        // Asegurarnos de que JS sepa que la hora original es UTC agregando la 'Z'
+                        let fechaStr = log.created_at;
+                        if (!fechaStr.endsWith('Z') && !fechaStr.includes('+')) {
+                            fechaStr += 'Z';
+                        }
+                        
+                        const dateObj = new Date(fechaStr);
+                        
                         // Forzar hora de Colombia (America/Bogota)
                         const date = dateObj.toLocaleDateString('es-CO', { timeZone: 'America/Bogota', day: '2-digit', month: 'short', year: 'numeric' });
                         const time = dateObj.toLocaleTimeString('es-CO', { timeZone: 'America/Bogota', hour: '2-digit', minute: '2-digit', hour12: true });

@@ -21,6 +21,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 .limit(1);
 
             if (!contratantes || contratantes.length === 0) {
+                // Guardar registro de búsqueda fallida
+                await supabase.from('logs_acceso').insert({
+                    tipo_accion: 'consulta_publica_fallida',
+                    cedula_consultada: searchValue
+                });
+
                 return res.status(404).json({
                     success: false,
                     message: 'No se encontró ninguna membresía con este documento'
@@ -28,6 +34,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             }
             
             const contratante = contratantes[0];
+
+            // Guardar registro de búsqueda exitosa
+            await supabase.from('logs_acceso').insert({
+                tipo_accion: 'consulta_publica_exitosa',
+                cedula_consultada: searchValue
+            });
 
             return res.status(200).json({
                 success: true,

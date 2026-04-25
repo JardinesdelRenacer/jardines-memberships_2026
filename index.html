@@ -195,8 +195,21 @@
             btnLoader.classList.remove('hidden');
 
             try {
+                console.log(`[RADAR 1] Buscando documento: "${cedula}"`);
                 const response = await fetch(`/api/contratantes?cedula=${encodeURIComponent(cedula)}`);
-                const data = await response.json();
+                console.log(`[RADAR 2] Status HTTP de Vercel: ${response.status}`);
+
+                const textoCrudo = await response.text();
+                console.log(`[RADAR 3] Respuesta cruda del servidor:`, textoCrudo);
+
+                let data;
+                try {
+                    data = JSON.parse(textoCrudo);
+                    console.log(`[RADAR 4] JSON interpretado correctamente:`, data);
+                } catch (e) {
+                    console.error(`[RADAR ERROR] El servidor no devolvió datos válidos.`);
+                    throw new Error(`Fallo interno del servidor (Status: ${response.status}). Revisa la consola F12.`);
+                }
 
                 if (response.ok && data.success) {
                     const info = data.data;
@@ -224,11 +237,13 @@
                     // Fade in effect
                     setTimeout(() => resultContainer.style.opacity = '1', 50);
                 } else {
-                    errorText.textContent = data.message || data.error || 'No se encontró información para el documento ingresado.';
+                    console.warn(`[RADAR 5] Rechazado por la API:`, data);
+                    errorText.textContent = `Aviso de Base de Datos: ${data.message || data.error || 'No encontrado'}`;
                     errorContainer.classList.remove('hidden');
                 }
             } catch (err) {
-                errorText.textContent = 'Hubo un error al conectar con el servidor. Intente de nuevo más tarde.';
+                console.error("[RADAR CRÍTICO]", err);
+                errorText.textContent = `Error del sistema: ${err.message}`;
                 errorContainer.classList.remove('hidden');
             } finally {
                 submitBtn.disabled = false;

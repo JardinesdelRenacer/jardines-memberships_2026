@@ -95,12 +95,13 @@
         .blob-2 { position: absolute; width: 400px; height: 400px; background: rgba(0, 204, 255, 0.3); border-radius: 50%; filter: blur(100px); bottom: -150px; right: -100px; z-index: 0; }
     </style>
 </head>
-<body class="bg-liquid min-h-screen flex items-center justify-center p-4 relative">
+<body class="bg-liquid min-h-screen relative">
 
     <!-- Elementos líquidos de fondo -->
     <div class="blob-1 pointer-events-none"></div>
     <div class="blob-2 pointer-events-none"></div>
 
+    <main class="min-h-screen flex items-center justify-center p-4 relative">
     <div class="glass-card w-full max-w-md rounded-[2rem] p-8 relative z-10">
         <!-- Reflejo superior interior -->
         <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-white/40 to-transparent rounded-t-[2rem] pointer-events-none"></div>
@@ -204,16 +205,10 @@
             </div>
         </div>
     </div>
+    </main>
 
-    <!-- Footer -->
-    <footer class="absolute bottom-4 left-0 w-full text-center z-10">
-        <p class="text-[10px] text-white/70 font-medium tracking-wide">
-            &copy; 2026 Jardines del Renacer. Todos los derechos reservados.
-        </p>
-        <p class="text-[10px] text-white/50 mt-1 tracking-wide">
-            Versión 3.01.1 | Creado y diseñado por <a href="https://github.com/JuanMonza" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-100 font-bold transition-colors">Juan Monza</a>
-        </p>
-    </footer>
+    <div data-jardines-footer></div>
+    <script src="/jardines-footer.js" defer></script>
 
     <script>
         document.getElementById('searchForm').addEventListener('submit', async (e) => {

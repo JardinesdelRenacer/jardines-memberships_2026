@@ -28,6 +28,15 @@
             z-index: 50;
         }
 
+        .brand-logo-shell {
+            background: linear-gradient(145deg, rgba(7, 58, 120, 0.96), rgba(13, 90, 164, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 12px 24px rgba(0, 35, 82, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+        }
+        .brand-logo-shell img {
+            filter: drop-shadow(0 6px 9px rgba(0, 0, 0, 0.24));
+        }
+
         /* Tarjetas con efecto Cristal Suave */
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
@@ -85,6 +94,80 @@
         /* Elementos de fondo decorativos sutiles */
         .bg-blob { position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,102,255,0.03) 0%, rgba(255,255,255,0) 70%); top: -100px; right: -100px; z-index: -1; pointer-events: none; }
         .bg-blob-2 { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,204,255,0.03) 0%, rgba(255,255,255,0) 70%); bottom: -100px; left: -100px; z-index: -1; pointer-events: none; }
+
+        @media (max-width: 768px) {
+            .glass-card {
+                border-radius: 1.1rem;
+            }
+            .dashboard-heading {
+                font-size: 1.75rem !important;
+                line-height: 1.15 !important;
+                white-space: normal !important;
+            }
+            .card-title {
+                align-items: flex-start;
+                font-size: 1.12rem !important;
+                line-height: 1.25 !important;
+            }
+            .quick-access {
+                align-items: stretch !important;
+                flex-direction: column;
+                gap: 0.9rem;
+            }
+            .quick-access a {
+                justify-content: center;
+            }
+            .monitor-header {
+                align-items: stretch !important;
+                flex-direction: column;
+                gap: 0.9rem;
+            }
+            .monitor-header button {
+                justify-content: center;
+                width: 100%;
+            }
+            table th,
+            table td {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .nav-row {
+                align-items: stretch;
+                flex-direction: column;
+                height: auto !important;
+            }
+            .nav-brand {
+                justify-content: center;
+                min-width: 0;
+            }
+            .brand-title {
+                font-size: 1.1rem !important;
+            }
+            .nav-actions {
+                justify-content: center;
+                width: 100%;
+            }
+            .brand-logo-shell img {
+                height: 1.85rem !important;
+            }
+            main {
+                padding-top: 1.5rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+            .glass-card > div {
+                padding: 1.15rem !important;
+            }
+            .upload-zone {
+                padding: 1.2rem !important;
+            }
+            .format-tags span {
+                max-width: 100%;
+                overflow-wrap: anywhere;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen relative">
@@ -95,14 +178,14 @@
     <!-- Navbar -->
     <nav class="glass-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="bg-white/50 p-1.5 rounded-lg border border-gray-100 shadow-sm mr-3 backdrop-blur-md">
+            <div class="nav-row flex justify-between min-h-16 py-2 gap-3">
+                <div class="nav-brand flex items-center">
+                    <div class="brand-logo-shell p-1.5 rounded-lg mr-3 backdrop-blur-md">
                         <img src="/logo-oficial.webp" alt="Logo" class="h-8 object-contain" onerror="this.src='/logo-oficial.webp'">
                     </div>
-                    <span class="font-bold text-xl text-gray-800 tracking-tight">Admin<span class="text-blue-800 font-medium">Panel</span></span>
+                    <span class="brand-title font-bold text-xl text-gray-800 tracking-tight">Admin<span class="text-blue-800 font-medium">Panel</span></span>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="nav-actions flex items-center gap-2 sm:gap-4">
                     <span id="adminName" class="text-sm font-semibold text-gray-600 bg-gray-100/50 px-3 py-1.5 rounded-full border border-gray-200/50 hidden sm:inline-block"></span>
                     <button id="btnLogout" class="text-sm text-red-600 hover:text-red-800 font-bold flex items-center bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-full transition-colors border border-red-100">
                         <i data-lucide="log-out" class="w-4 h-4 mr-1"></i> Salir
@@ -113,11 +196,11 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 relative z-10">
         
         <div class="md:flex md:items-center md:justify-between mb-8">
             <div class="min-w-0 flex-1">
-                <h2 class="text-3xl font-extrabold leading-7 text-gray-900 tracking-tight sm:truncate">Dashboard General</h2>
+                <h2 class="dashboard-heading text-3xl font-extrabold leading-7 text-gray-900 tracking-tight sm:truncate">Dashboard General</h2>
                 <p class="text-sm text-gray-500 mt-2 font-medium">Gestión inteligente de base de datos de membresías</p>
             </div>
         </div>
@@ -127,7 +210,7 @@
             <div class="glass-card">
                 <div class="p-6 sm:p-8">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                        <h3 class="card-title text-xl font-bold text-gray-800 flex items-center">
                             <div class="bg-blue-100/50 p-2 rounded-xl mr-3 text-blue-700 border border-blue-200/50">
                                 <i data-lucide="upload-cloud" class="w-6 h-6"></i>
                             </div>
@@ -166,7 +249,7 @@
             <div class="glass-card">
                 <div class="p-6 sm:p-8">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                        <h3 class="card-title text-xl font-bold text-gray-800 flex items-center">
                             <div class="bg-indigo-100/50 p-2 rounded-xl mr-3 text-indigo-700 border border-indigo-200/50">
                                 <i data-lucide="info" class="w-6 h-6"></i>
                             </div>
@@ -176,7 +259,7 @@
 
                     <div class="bg-gray-50/50 rounded-2xl p-5 border border-gray-100 mb-6">
                         <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Formato Requerido (Columnas exactas)</h4>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="format-tags flex flex-wrap gap-2">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-gray-200 text-gray-700 shadow-sm">nombreContratante</span>
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-gray-200 text-gray-700 shadow-sm">cedula</span>
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-gray-200 text-gray-700 shadow-sm">idContrato</span>
@@ -202,7 +285,7 @@
                         </li>
                     </ul>
 
-                    <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
+                    <div class="quick-access mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
                         <p class="text-xs text-gray-400 font-medium">Acceso rápido a vista de clientes</p>
                         <a href="/" target="_blank" class="inline-flex items-center text-sm font-bold text-blue-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full transition-colors border border-blue-100">
                             <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> Búsqueda Pública
@@ -214,8 +297,8 @@
             <!-- NUEVA TARJETA: Monitor de Consultas -->
             <div class="glass-card lg:col-span-2">
                 <div class="p-6 sm:p-8">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                    <div class="monitor-header flex items-center justify-between mb-6">
+                        <h3 class="card-title text-xl font-bold text-gray-800 flex items-center">
                             <div class="bg-emerald-100/50 p-2 rounded-xl mr-3 text-emerald-700 border border-emerald-200/50">
                                 <i data-lucide="activity" class="w-6 h-6"></i>
                             </div>

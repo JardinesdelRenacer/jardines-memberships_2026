@@ -73,11 +73,12 @@
       .jdr-footer__form input:focus{border-color:rgba(255,255,255,.62);background:rgba(255,255,255,.16)}
       .jdr-footer__form button{border:0;border-radius:8px;background:#fff;color:#2f4d82;font-weight:850;letter-spacing:.02em;padding:.92rem 1.45rem;cursor:pointer;box-shadow:0 16px 32px rgba(0,0,0,.14);transition:transform .2s ease,background .2s ease,color .2s ease}
       .jdr-footer__form button:hover{transform:translateY(-1px);background:#eaf0ff;color:#243f70}
-      .jdr-footer__main{display:grid;grid-template-columns:1.15fr repeat(4,1fr);gap:2rem;padding:4.75rem 0}
-      .jdr-footer__brand-logos{display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem}
-      .jdr-footer__brand-logos img{display:block;object-fit:contain;filter:drop-shadow(0 14px 18px rgba(0,0,0,.16))}
-      .jdr-footer__brand-logo{width:5.6rem;height:5.6rem}
-      .jdr-footer__anniversary{width:7rem;height:7rem}
+      .jdr-footer__main{display:grid;grid-template-columns:minmax(15rem,1.15fr) repeat(4,minmax(0,1fr));gap:2rem;padding:4.75rem 0}
+      .jdr-footer__brand-logos{display:inline-flex;align-items:center;gap:.85rem;margin-bottom:1.4rem;max-width:100%;padding:.55rem;border-radius:8px;background:linear-gradient(135deg,rgba(6,42,92,.82),rgba(31,103,178,.72));border:1px solid rgba(255,255,255,.18);box-shadow:0 24px 44px rgba(3,21,52,.28),inset 0 1px 0 rgba(255,255,255,.16)}
+      .jdr-footer__logo-card{display:grid;place-items:center;flex:0 0 auto;border-radius:8px;background:linear-gradient(145deg,#073a78 0%,#0b559e 55%,#143b79 100%);border:1px solid rgba(255,255,255,.26);box-shadow:0 16px 28px rgba(0,22,54,.28),inset 0 1px 0 rgba(255,255,255,.18);padding:.5rem}
+      .jdr-footer__brand-logos img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+      .jdr-footer__brand-logo-card{width:6.4rem;height:6.4rem}
+      .jdr-footer__anniversary-card{width:7.5rem;height:7.5rem}
       .jdr-footer__brand p{margin:0;color:rgba(255,255,255,.8);font-size:.92rem;line-height:1.7}
       .jdr-footer__column h3{position:relative;display:inline-block;margin:0 0 1.15rem;font-size:.78rem;line-height:1.2;font-weight:850;text-transform:uppercase;letter-spacing:.12em;color:#fff}
       .jdr-footer__column h3:after{content:"";position:absolute;left:0;bottom:-.45rem;width:2.2rem;height:2px;border-radius:999px;background:rgba(255,255,255,.62)}
@@ -96,8 +97,9 @@
       .jdr-footer__credit{font-size:.78rem;color:rgba(255,255,255,.68);font-weight:600}
       .jdr-footer__credit a{padding:.55rem .75rem;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.06)}
       .jdr-footer__credit a:hover{background:rgba(255,255,255,.11);color:#fff}
-      @media (max-width:1100px){.jdr-footer__newsletter-grid{align-items:flex-start;flex-direction:column}.jdr-footer__form{justify-content:flex-start;width:100%}.jdr-footer__main{grid-template-columns:repeat(2,1fr)}.jdr-footer__brand{grid-column:1/-1}.jdr-footer__bottom-grid{flex-direction:column;text-align:center}}
-      @media (max-width:640px){.jdr-footer{margin-top:3.5rem}.jdr-footer__newsletter{padding:2.7rem 0}.jdr-footer__container{padding:0 1rem}.jdr-footer__form{display:grid;grid-template-columns:1fr}.jdr-footer__form input,.jdr-footer__form button{width:100%;min-width:0}.jdr-footer__main{grid-template-columns:1fr;padding:3.4rem 0;gap:1.4rem}.jdr-footer__brand-logo{width:4.8rem;height:4.8rem}.jdr-footer__anniversary{width:6rem;height:6rem}.jdr-footer__social{flex-wrap:wrap;justify-content:center}}
+      @media (max-width:1100px){.jdr-footer__newsletter-grid{align-items:flex-start;flex-direction:column}.jdr-footer__form{justify-content:flex-start;width:100%}.jdr-footer__main{grid-template-columns:repeat(2,minmax(0,1fr))}.jdr-footer__brand{grid-column:1/-1}.jdr-footer__bottom-grid{flex-direction:column;text-align:center}}
+      @media (max-width:760px){.jdr-footer__newsletter-grid{text-align:center;align-items:center}.jdr-footer__form{display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:36rem}.jdr-footer__form input,.jdr-footer__form button{width:100%;min-width:0}.jdr-footer__form input[type="email"],.jdr-footer__form button{grid-column:1/-1}.jdr-footer__main{grid-template-columns:1fr;padding:3.8rem 0;gap:1.45rem}.jdr-footer__brand{text-align:center}.jdr-footer__brand-logos{margin-left:auto;margin-right:auto}.jdr-footer__panel{text-align:left}.jdr-footer__column h3{margin-left:auto;margin-right:auto;display:block;width:max-content}.jdr-footer__column h3:after{left:50%;transform:translateX(-50%)}}
+      @media (max-width:480px){.jdr-footer{margin-top:3.5rem}.jdr-footer__newsletter{padding:2.5rem 0}.jdr-footer__container{padding:0 1rem}.jdr-footer__title{font-size:1.75rem}.jdr-footer__form{grid-template-columns:1fr}.jdr-footer__brand-logos{gap:.55rem;padding:.45rem}.jdr-footer__brand-logo-card{width:5.2rem;height:5.2rem}.jdr-footer__anniversary-card{width:6.1rem;height:6.1rem}.jdr-footer__social{flex-wrap:wrap;justify-content:center}.jdr-footer__bottom{padding:1.65rem 0}}
     `;
     document.head.appendChild(style);
   }
@@ -126,8 +128,12 @@
             <div class="jdr-footer__main">
               <div class="jdr-footer__brand">
                 <a href="${SITE_BASE}" target="_blank" rel="noopener noreferrer" class="jdr-footer__brand-logos" aria-label="Ir al sitio web de Jardines del Renacer">
-                  <img class="jdr-footer__brand-logo" src="/log_footer.webp" alt="Jardines del Renacer" loading="lazy">
-                  <img class="jdr-footer__anniversary" src="/images/25anos_since.png" alt="25 años Jardines del Renacer" loading="lazy">
+                  <span class="jdr-footer__logo-card jdr-footer__brand-logo-card">
+                    <img src="/log_footer.webp" alt="Jardines del Renacer" loading="lazy">
+                  </span>
+                  <span class="jdr-footer__logo-card jdr-footer__anniversary-card">
+                    <img src="/images/25anos_since.png" alt="25 años Jardines del Renacer" loading="lazy">
+                  </span>
                 </a>
                 <p>Brindamos servicios funerarios con dignidad, respeto y paz eterna para tus seres queridos desde hace más de 30 años.</p>
               </div>

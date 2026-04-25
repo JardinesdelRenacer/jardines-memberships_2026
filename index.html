@@ -115,10 +115,10 @@
 
         <form id="searchForm" class="space-y-5 relative z-10">
             <div>
-                <label for="cedula" class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Número de Cédula</label>
+                <label for="cedula" class="block text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">Cédula o ID Persona</label>
                 <input type="text" id="cedula" name="cedula" required
                     class="glass-input block w-full px-5 py-3.5 rounded-xl text-lg font-semibold text-gray-800 placeholder-gray-400"
-                    placeholder="Ej. 1234567890">
+                    placeholder="Ej. 1234567890 o IDPERSONA">
             </div>
             <button type="submit" id="submitBtn"
                 class="glass-btn w-full flex justify-center items-center py-3.5 px-4 rounded-xl text-lg font-semibold">
@@ -222,7 +222,7 @@
                     // Fade in effect
                     setTimeout(() => resultContainer.style.opacity = '1', 50);
                 } else {
-                    errorText.textContent = data.error || 'No se encontró información para la cédula ingresada.';
+                    errorText.textContent = data.message || data.error || 'No se encontró información para el documento ingresado.';
                     errorContainer.classList.remove('hidden');
                 }
             } catch (err) {

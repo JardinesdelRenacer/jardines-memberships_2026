@@ -1,25 +1,21 @@
-import * as XLSX from 'xlsx';
-import { supabase } from '../lib/supabaseClient.js';
+import { VercelRequest, VercelResponse } from '@vercel/node';
+import { supabase } from '../src/lib/supabaseClient.js';
 
-export const procesarExcelContratantes = async (
-    archivo: Buffer,
-    adminId: string
-): Promise<{ exitosos: number; errores: number; detalles: any[] }> => {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method not allowed' });
+    }
+
     try {
-        const workbook = XLSX.read(archivo, { type: 'buffer' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const { adminId, batch } = req.body;
 
-        
-        // Forzamos el tipo a Record para que TypeScript sepa que son objetos
-        const datos = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet);
+        if (!adminId || !batch || !Array.isArray(batch)) {
+            return res.status(400).json({ success: false, message: 'Datos incompletos' });
+        }
 
-        const resultados = {
-            exitosos: 0,
-            errores: 0,
-            detalles: [] as any[]
-        };
+        const resultados = { exitosos: 0, errores: 0, detalles: [] as any[] };
 
-        for (const fila of datos) {
+        for (const fila of batch) {
             try {
                 const idPersonaRaw = fila.IDPERSONA?.toString()?.trim() || fila.idPersona?.toString()?.trim() || '';
                 const cedulaRaw = fila.CEDULA?.toString()?.trim() || fila.cedula?.toString()?.trim() || idPersonaRaw;
@@ -52,24 +48,18 @@ export const procesarExcelContratantes = async (
 
                 if (error) {
                     resultados.errores++;
-                    resultados.detalles.push({
-                        cedula: fila.cedula,
-                        error: error.message
-                    });
+                    resultados.detalles.push({ cedula: fila.cedula, error: error.message });
                 } else {
                     resultados.exitosos++;
                 }
             } catch (error: any) {
                 resultados.errores++;
-                resultados.detalles.push({
-                    cedula: fila.cedula,
-                    error: error.message
-                });
+                resultados.detalles.push({ cedula: fila.cedula, error: error.message });
             }
         }
 
-        return resultados;
+        return res.status(200).json({ success: true, resultados });
     } catch (error: any) {
-        throw new Error(`Error procesando Excel: ${error.message}`);
+        return res.status(500).json({ success: false, error: error.message });
     }
-};
+}

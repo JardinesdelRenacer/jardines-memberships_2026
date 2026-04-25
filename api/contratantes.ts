@@ -13,18 +13,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 });
             }
 
-            const { data: contratante } = await supabase
+            const searchValue = cedula.toString().trim();
+            const { data: contratantes, error } = await supabase
                 .from('contratantes')
                 .select('*')
-                .eq('cedula', cedula.toString().trim())
-                .single();
+                .or(`cedula.ilike.${searchValue},id_persona.ilike.${searchValue},id_contrato.ilike.${searchValue}`)
+                .limit(1);
 
-            if (!contratante) {
+            if (!contratantes || contratantes.length === 0) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Contratante no encontrado'
+                    message: 'No se encontró ninguna membresía con este documento'
                 });
             }
+            
+            const contratante = contratantes[0];
 
             return res.status(200).json({
                 success: true,

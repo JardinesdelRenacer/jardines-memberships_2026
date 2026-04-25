@@ -200,7 +200,9 @@
 
                 if (response.ok && data.success) {
                     const info = data.data;
-                    document.getElementById('resNombre').textContent = info.nombre_contratante || info.nombre || 'N/A';
+                    
+                    const nombreLimpio = info.nombre_contratante || info.nombre || 'N/A';
+                    document.getElementById('resNombre').textContent = nombreLimpio.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
                     
                     const estado = info.estado || 'N/A';
                     const estadoEl = document.getElementById('resEstado');

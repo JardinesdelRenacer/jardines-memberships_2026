@@ -14,7 +14,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
             if (error) throw error;
 
-            return res.status(200).json({ success: true, data: logs });
+            // Enriquecer los logs buscando el nombre del contratante
+            const logsConNombres = await Promise.all(logs.map(async (log) => {
+                let nombre = 'No registrado';
+                if (log.tipo_accion === 'consulta_publica_exitosa') {
+                    const val = log.cedula_consultada;
+                    const { data } = await supabase
+                        .from('contratantes')
+                        .select('nombre_contratante')
+                        .or(`cedula.ilike.${val},id_persona.ilike.${val},id_contrato.ilike.${val}`)
+                        .limit(1);
+                        
+                    if (data && data.length > 0) {
+                        nombre = data[0].nombre_contratante;
+                    }
+                }
+                return { ...log, nombre_persona: nombre };
+            }));
+
+            return res.status(200).json({ success: true, data: logsConNombres });
         } catch (error: any) {
             return res.status(500).json({ success: false, error: error.message });
         }
